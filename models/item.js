@@ -10,7 +10,7 @@ const Item = new Schema({
     stock: { type: Number, required: true },
 });
 
-Item.virtual('URL').get(function () {
+Item.virtual('url').get(function () {
     return `/item/${this._id}`;
 });
 

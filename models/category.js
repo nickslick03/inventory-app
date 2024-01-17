@@ -8,7 +8,7 @@ const Category = new Schema({
 
 });
 
-Category.virtual('URL').get(function () {
+Category.virtual('url').get(function () {
     return `/category/${this._id}`;
 });
 

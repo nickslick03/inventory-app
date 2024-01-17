@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    h1=title
+    p=category.description
+    h2 Items
+    ul
+        each item in items
+            li #[strong=item.name] | #[a(href=item.url) item page]
+    a(href=category.url+"/edit") edit category
+    br
+    a(href=category.url+"/delete") delete category

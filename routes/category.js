@@ -6,6 +6,10 @@ router.get('/', categoryController.category);
 
 router.get('/all', categoryController.get_category_all);
 
+router.get('/create', categoryController.get_category_create);
+
+router.post('/create', categoryController.post_category_create);
+
 router.get('/:id', categoryController.get_category);
 
 router.get('/:id/edit', categoryController.get_category_edit);
