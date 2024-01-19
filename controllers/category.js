@@ -3,6 +3,16 @@ const Category = require('../models/category');
 const Items = require('../models/item');
 const { body, validationResult } = require('express-validator');
 
+const categoryValidation = () => [
+  body('name', 'Name must be between 1 to 20 characters')
+    .trim()
+    .isLength({ min: 1, max: 20 })
+    .escape(),
+  body('description', 'Description must be between 1 to 200 characters')
+    .trim()
+    .isLength({ min: 1, max: 200 })
+];
+
 module.exports.category = asyncHandler(async (req, res, next) => {
   res.redirect(req.baseUrl + '/all');
 });
@@ -25,13 +35,7 @@ module.exports.get_category_create = asyncHandler(async (req, res) => {
 
 module.exports.post_category_create = [
 
-  body('name', 'Name must be between 1 to 20 characters')
-    .trim()
-    .isLength({ min: 1, max: 20 })
-    .escape(),
-  body('description', 'Description must be between 1 to 200 characters')
-    .trim()
-    .isLength({ min: 1, max: 200 }),
+ ...categoryValidation(),
 
   asyncHandler(async (req, res) => {
     
@@ -95,13 +99,8 @@ module.exports.get_category_edit = asyncHandler(async (req, res) => {
 });
 
 module.exports.post_category_edit = [
-  body('name', 'Name must be between 1 to 20 characters')
-    .trim()
-    .isLength({min: 1, max: 20})
-    .escape(),
-  body('description', 'description must be between 1 to 200 characters')
-    .trim()
-    .isLength({min: 1, max: 200}),
+  
+  ...categoryValidation(),
 
   asyncHandler(async (req, res) => {
     

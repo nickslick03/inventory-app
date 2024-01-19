@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+    h1=title
+    p Are you sure you want to delete the #{item.name} item?
+    form(method="post")
+        input(type="submit" value="Delete")
+    a(href=item.url) back to item page

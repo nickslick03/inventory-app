@@ -2,6 +2,13 @@ const express = require('express');
 const router = express.Router();
 const itemController = require('../controllers/item');
 
+router.get('/all', itemController.get_item_all);
+
+router.get('/create', itemController.get_item_create);
+
+router.post('/create', itemController.post_item_create);
+
+
 router.get('/:id', itemController.get_item);
 
 router.get('/:id/edit', itemController.get_item_edit);

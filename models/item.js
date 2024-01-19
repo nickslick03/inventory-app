@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const Item = new Schema({
-    category: { type: mongoose.Types.ObjectId, },
+    category: { type: mongoose.Types.ObjectId, ref: 'Category' },
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },

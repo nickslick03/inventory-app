@@ -1,0 +1,18 @@
+extends ../layout 
+
+block content 
+    h1=title 
+    p=item.description 
+    table
+        tr 
+            td #[strong price]
+            td=item.price
+        tr 
+            td #[strong No. in stock]
+            td=item.stock
+        tr 
+            td #[strong Category]
+            td #[a(href=item.category.url)=item.category.name]
+    a(href=item.url+'/edit') Edit Item 
+    br
+    a(href=item.url+'/delete') Delete Item

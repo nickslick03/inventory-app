@@ -1,0 +1,16 @@
+extends ../layout
+
+block content 
+    h1=title
+    if categories.length > 0
+        each category in categories 
+            h2=category.name
+            ul
+                if category.items.length > 0
+                    each item in category.items
+                        li #[a(href=item.url)=item.name]
+                else
+                    li No items in this category.
+    else
+        p No items.
+    a(href='/item/create') Create Item

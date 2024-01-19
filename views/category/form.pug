@@ -5,14 +5,16 @@ block content
     form(method="post")
         label(for="name") Name:
         br
-        input(id="name" name="name" type="text" placeholder="stuff..." value=category ? category.name : '')
+        input(id="name" name="name" type="text" minlength="1" maxlength="20" required value=category ? category.name : '')
         br
         label(for="description") Description:
         br
-        textarea(id="description" name="description", cols="30", rows="10")=category ? category.description : ''
+        textarea(id="description" name="description" cols="30" rows="10" required minlength="1" maxlength="200")=category ? category.description : ''
         br
         input(type="submit" value="submit")
     if errors
         ul
             for err in errors
                 li=err.msg
+    if category
+        a(href=category.url) Back to Category
