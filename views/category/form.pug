@@ -1,16 +1,15 @@
 extends ../layout
 
+block head
+    link(rel="stylesheet" href="/stylesheets/form.css")
+
 block content
     h1=title
     form(method="post")
         label(for="name") Name:
-        br
         input(id="name" name="name" type="text" minlength="1" maxlength="20" required value=category ? category.name : '')
-        br
         label(for="description") Description:
-        br
         textarea(id="description" name="description" cols="30" rows="10" required minlength="1" maxlength="200")=category ? category.description : ''
-        br
         input(type="submit" value="submit")
     if errors
         ul

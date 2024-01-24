@@ -1,5 +1,9 @@
 extends layout
 
+block head
+  link(rel="stylesheet" href="/public/stylesheets/index.css")
+
 block content
-  h1= title
-  p Welcome to #{title}
+  hgroup
+    h1 The Bazaar
+    p #[em Buy somethin' will ya!]

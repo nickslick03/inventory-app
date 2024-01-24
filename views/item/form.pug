@@ -1,33 +1,26 @@
 extends ../layout
 
+block head
+    link(rel="stylesheet" href="/stylesheets/form.css")
+
 block content 
     h1=title 
     form(method="post")
         label(for="name") Name:
-        br
         input(type="text" name="name" id="name" minlength="1" maxlength="20" required value=item ? item.name : '')
-        br
         label(for="category") Category: 
-        br
         select(name="category" id="category")
             each category in categories
                 if item && category._id.toString() == item.category.toString()
                     option(value=category._id selected)=category.name
                 else 
                     option(value=category._id)=category.name
-        br
         label(for="description") Description:
-        br
         textarea(name="description" id="description" cols="30" rows="10" minlength="1" maxlength="200" required)=item ? item.description : ''
-        br
         label(for="price") Price:
-        br
         input(type="number" name="price" id="price" min=0.01 step=0.01 required  value=item ? item.price : 1)
-        br
         label(for="stock") No. In Stock:
-        br
         input(type="number" name="stock" id="stock" min=1 required value=item ? item.stock : 1)
-        br
         input(type="submit" value="Submit")
     if errors 
         ul 
