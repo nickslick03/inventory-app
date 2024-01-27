@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const formidable = require('express-formidable');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -23,8 +24,14 @@ async function startdb() {
 startdb().catch(err => console.log(err));
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.use(formidable({
+  encoding: 'utf-8',
+  uploadDir: path.join(__dirname, 'uploads'),
+  multiples: false,
+  keepExtensions: true
+}));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

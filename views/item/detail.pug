@@ -1,7 +1,8 @@
 extends ../layout 
 
 block content 
-    h1=title 
+    h1=title
+    img(src= item.image ? `data:${item.image.contentType};base64,${item.image.data.toString('base64')}` : '/images/placeholder.jpg')
     p=item.description 
     table
         tr 

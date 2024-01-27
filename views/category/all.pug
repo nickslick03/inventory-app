@@ -4,5 +4,5 @@ block content
     h1=title
     ul
         each category in categories
-            li #[strong=category.name] | #[a(href=category.url) category page]
+            li #[a(href=category.url)=category.name]
     a(href='/category/create') Create Category

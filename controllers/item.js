@@ -2,8 +2,16 @@ const asyncHandler = require('express-async-handler');
 const Item = require('../models/item');
 const Category = require('../models/category');
 const { body, validationResult } = require('express-validator');
+const fs = require('fs');
+const formidable = require('express-formidable');
 
 const itemValidationChain = () => [
+
+  (req, res, next) => {
+    req.body = req.fields;
+    next();
+  },
+
   body("name", "Name must be between 1 and 20 characters")
     .trim()
     .isLength({min: 1, max: 20})
@@ -29,7 +37,7 @@ const itemValidationChain = () => [
     .withMessage("Price must be greater than 0"),
 
   body("stock", "Stock must be greater than or equal to 0")
-    .custom(stock => +stock >= 0)
+    .custom(stock => +stock >= 0),
 ];
 
 module.exports.get_item_all = asyncHandler(async (req, res, next) => {
@@ -72,12 +80,22 @@ module.exports.post_item_create = [
 
     const result = validationResult(req);
 
+    const data = req.files['image'].size != 0
+    ? await fs.promises.readFile(req.files['image'].path)
+    : undefined;
+
+    const image = {
+      data,
+      contentType: 'image/png'
+    };
+
     const item = new Item({
       name: req.body.name,
       category: req.body.category,
       description: req.body.description,
       price: req.body.price,
-      stock: req.body.stock
+      stock: req.body.stock,
+      image: data ? image : undefined,
     });
 
     if (!result.isEmpty()) {
@@ -121,13 +139,25 @@ module.exports.post_item_edit = [
 
     const result = validationResult(req);
 
+    const data = req.files['image'].size != 0
+    ? await fs.promises.readFile(req.files['image'].path)
+    : undefined;
+
+    await fs.promises.unlink(req.files['image'].path);
+
+    const image = {
+      data,
+      contentType: 'image/png'
+    };
+
     const item = new Item({
       _id: req.params.id,
       name: req.body.name,
       category: req.body.category,
       description: req.body.description,
       price: req.body.price,
-      stock: req.body.stock
+      stock: req.body.stock,
+      image: data ? image : undefined,
     });
 
     if (!result.isEmpty()) {

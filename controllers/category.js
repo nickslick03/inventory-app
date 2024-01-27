@@ -75,7 +75,7 @@ module.exports.get_category = asyncHandler(async (req, res, next) => {
   }
 
   res.render('category/detail', {
-    title: category.name + ' Category',
+    title: category.name,
     category,
     items
   });

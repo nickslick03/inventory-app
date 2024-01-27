@@ -28,3 +28,7 @@ a {
 main a {
   color: black;
 }
+
+img {
+  height: 300px;
+}

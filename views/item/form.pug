@@ -5,7 +5,7 @@ block head
 
 block content 
     h1=title 
-    form(method="post")
+    form(method="post" enctype="multipart/form-data")
         label(for="name") Name:
         input(type="text" name="name" id="name" minlength="1" maxlength="20" required value=item ? item.name : '')
         label(for="category") Category: 
@@ -21,6 +21,8 @@ block content
         input(type="number" name="price" id="price" min=0.01 step=0.01 required  value=item ? item.price : 1)
         label(for="stock") No. In Stock:
         input(type="number" name="stock" id="stock" min=1 required value=item ? item.stock : 1)
+        label(for="image") Image:
+        input(type="file" id="image" name="image")
         input(type="submit" value="Submit")
     if errors 
         ul 
