@@ -3,14 +3,11 @@ const Item = require('../models/item');
 const Category = require('../models/category');
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
-const formidable = require('express-formidable');
+const multer = require('multer');
+const upload = multer(multer.memoryStorage());
 
 const itemValidationChain = () => [
-
-  (req, res, next) => {
-    req.body = req.fields;
-    next();
-  },
+  upload.single('image'),
 
   body("name", "Name must be between 1 and 20 characters")
     .trim()
@@ -47,7 +44,7 @@ module.exports.get_item_all = asyncHandler(async (req, res, next) => {
   res.render('item/all', {
     title: 'Items',
     categories
-  })
+  });
 });
 
 module.exports.get_item_create = asyncHandler(async (req, res, next) => {
@@ -80,22 +77,18 @@ module.exports.post_item_create = [
 
     const result = validationResult(req);
 
-    const data = req.files['image'].size != 0
-    ? await fs.promises.readFile(req.files['image'].path)
-    : undefined;
-
-    const image = {
-      data,
-      contentType: 'image/png'
-    };
-
     const item = new Item({
       name: req.body.name,
       category: req.body.category,
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
-      image: data ? image : undefined,
+      image: req.file 
+      ? {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      } 
+      : undefined
     });
 
     if (!result.isEmpty()) {
@@ -139,17 +132,6 @@ module.exports.post_item_edit = [
 
     const result = validationResult(req);
 
-    const data = req.files['image'].size != 0
-    ? await fs.promises.readFile(req.files['image'].path)
-    : undefined;
-
-    await fs.promises.unlink(req.files['image'].path);
-
-    const image = {
-      data,
-      contentType: 'image/png'
-    };
-
     const item = new Item({
       _id: req.params.id,
       name: req.body.name,
@@ -157,7 +139,12 @@ module.exports.post_item_edit = [
       description: req.body.description,
       price: req.body.price,
       stock: req.body.stock,
-      image: data ? image : undefined,
+      image: req.file 
+      ? {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      } 
+      : undefined
     });
 
     if (!result.isEmpty()) {
